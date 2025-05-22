@@ -4,6 +4,7 @@ from langchain_openai import ChatOpenAI
 
 from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
+from langchain_core.output_parsers import StrOutputParser
 
 
 def ice_break_with(name: str) -> str:
@@ -21,7 +22,7 @@ def ice_break_with(name: str) -> str:
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
-    chain = summary_prompt_template | llm
+    chain = summary_prompt_template | llm | StrOutputParser()
 
     res = chain.invoke(input={"information": linkedin_data})
 
